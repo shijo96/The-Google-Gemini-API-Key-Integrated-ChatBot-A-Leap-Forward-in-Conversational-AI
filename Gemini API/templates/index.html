@@ -1,0 +1,72 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('message').value;
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({message: message})
+            });
+            const data = await response.json();
+            document.getElementById('response').innerText = data.response;
+        }
+    </script>
+</head>
+<body>
+    <h1>Chat with Bot</h1>
+    <input type="text" id="message" placeholder="Type a message">
+    <button onclick="sendMessage()">Send</button>
+    <p id="response"></p>
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('message').value;
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({message: message})
+            });
+            const data = await response.json();
+            displayMessage('User', message);
+            displayMessage('Bot', data.response);
+            document.getElementById('message').value = ''; // Clear input field
+        }
+
+        function displayMessage(sender, text) {
+            const chatWindow = document.getElementById('chatWindow');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ' + sender.toLowerCase();
+            messageDiv.innerText = sender + ': ' + text;
+            chatWindow.appendChild(messageDiv);
+            chatWindow.scrollTop = chatWindow.scrollHeight; // Scroll to bottom
+        }
+    </script>
+</head>
+<body>
+    <div id="chatContainer">
+        <h1>Chat with Bot</h1>
+        <div id="chatWindow" class="chat-window"></div>
+        <textarea name="" id="message" placeholder="Type a message" rows="5" cols="90"></textarea>
+        <!-- <input type="text" id="message" placeholder="Type a message"> -->
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</body>
+</html>
